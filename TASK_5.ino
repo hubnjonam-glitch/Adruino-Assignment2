@@ -1,0 +1,53 @@
+int buzz = 12;
+int segmentPins[] = {8,7,6,5,4,3,2};
+int numSegments = 7;
+
+byte digits[10][7] = {                                 
+  {1, 1, 0, 1, 1, 1, 1},
+  {1, 1, 1, 1, 1, 1, 1}, 
+  {1, 0, 0, 1, 1, 0, 0}, 
+  {1 ,1 ,1 ,0 ,1 ,1 ,1}, 
+  {1, 1, 0, 0, 1, 1, 1},
+  {1, 0, 0, 1, 0, 1, 1},
+  {1, 1, 0, 1, 1, 0, 1},
+  {0, 1, 1, 1, 1, 0, 1},
+  {1, 0, 0, 1, 0, 0, 0},
+  {1, 1, 1, 1, 1, 1, 0},
+  };
+
+void showDigit(int x){
+   if (x < 0 || x > 9) return;
+
+  for(int i = 0; i < numSegments; i++) {
+    digitalWrite(segmentPins[i], digits[x][i]);
+  }
+}
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(buzz, OUTPUT);
+  for(int i = 0; i < numSegments; i++) {
+    pinMode(segmentPins[i], OUTPUT);
+  }
+  Serial.println(" === Beeping Countdown Starting ===");
+  int count = 9;
+  while(count >= 1 ) {
+    Serial.print("Counting: ");
+    Serial.println(count);
+
+    showDigit(count);
+    tone(buzz, 1000,200);
+    delay(1000);
+    count = count - 1;
+  }
+
+  showDigit(0);
+  tone(buzz, 1500, 1000);
+  Serial.println("=== Countdown Complete === ");
+}
+
+  
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
